@@ -4,6 +4,12 @@
 library(dplyr)
 library(tidyr)
 library(stringr)
+library(ggplot2)
+library(lme4)
+library(lmerTest)   # for p-values
+library(ggplot2)
+library(dplyr)
+library(emmeans) 
 
 
 load_data <- function(path = "data/data_nullExclude.csv") {
@@ -15,19 +21,17 @@ load_data <- function(path = "data/data_nullExclude.csv") {
   return(df)
 }
 
-df = load_data()
+raw = load_data()
 
 
 clean_ndvi_data <- function(path = "data/data_nullExclude.csv") 
   {
-  # ---- 1. LOAD ----
-  raw <- read.csv(path, check.names = FALSE)
   
-  # ---- 2. CLEAN BASIC COLUMN NAMES ----
+  # Fix column names and remove problematic characters
   df <- raw %>%
-    janitor::clean_names()   # makes everything snake_case and consistent
+    janitor::clean_names()   
   
-  # ---- 3. FIX IDs & TYPES ----
+  # Standardize ID and type column
   df <- df %>%
     mutate(
       type = factor(type),
@@ -38,14 +42,15 @@ clean_ndvi_data <- function(path = "data/data_nullExclude.csv")
   # Keep one standardized ID:
   if ("cid" %in% names(df)) {
     df <- df %>%
-      mutate(site_id = cid) %>%
-      select(-cid, -objectid)
+      mutate(site_id = cid) %>% # create standardized site ID
+      select(-cid, -objectid) # remove redundant columns
   }
   
-  # ---- 4. IDENTIFY NDVI COLUMNS ----
+  # Identify columns that contain NDVI measurements
   ndvi_cols <- grep("^mean_", names(df), value = TRUE)
   
-  # ---- 5. WIDE → LONG TRANSFORMATION ----
+  # Transform from wide to long format 
+  # Each row is one site at one date
   df_long <- df %>%
     pivot_longer(
       cols = all_of(ndvi_cols),
@@ -53,7 +58,7 @@ clean_ndvi_data <- function(path = "data/data_nullExclude.csv")
       values_to = "ndvi"
     )
   
-  # ---- 6. EXTRACT DATES ----
+  # Extract and convert date info
   df_long <- df_long %>%
     mutate(
       date = str_remove(date_raw, "^mean_"),
@@ -61,7 +66,7 @@ clean_ndvi_data <- function(path = "data/data_nullExclude.csv")
     ) %>%
     select(-date_raw)
   
-  # ---- 7. FINAL CLEANUP ----
+  # Arrange rows by site and date
   df_long <- df_long %>%
     arrange(site_id, date)
   
@@ -73,19 +78,60 @@ data_clean = clean_ndvi_data()
 
 
 
-
-
-
-# run a linear regression
-fit_model = function(data, response, predictor){
-  mod = lm(as.formula(paste(response, "~", predictor)), data = data)
-  mod
+plot_ndvi_simple <- function(df) {
+  ggplot(df, aes(x = date, y = ndvi, color = type)) +
+    geom_line() +            # line for temporal trend
+    geom_point(size = 1.5) + # small points for clarity
+    labs(
+      x = "Date",
+      y = "NDVI",
+      color = "Site Type",
+      title = "NDVI over Time by Site Type"
+    ) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
 }
 
-# make figure
-make_figure = function(traits){
-  ggplot(traits, aes(x = Gradient, y = Value)) +
-    geom_boxplot(fill = c("grey80", "darkgreen")) +
-    labs(x = "", y = expression(Leaf~area~cm^2)) +
-    theme_bw()
+
+plot_ndvi_simple(data_clean)
+
+
+
+
+ndvi_model_plot <- function(df) {
+  library(lme4)
+  library(lmerTest)   # for p-values
+  library(ggplot2)
+  library(dplyr)
+  library(emmeans)   # for estimated marginal means
+  
+  # ---- 1. Fit linear mixed model ----
+  # NDVI ~ type + random intercept for site_id
+  model <- lmerTest::lmer(ndvi ~ type + (1 | site_id), data = df)
+  
+  # ---- 2. Model summary ----
+  cat("===== Model Summary =====\n")
+  print(summary(model))
+  
+  # ---- 3. Estimated marginal means ----
+  emmeans_res <- emmeans(model, specs = "type")
+  cat("\n===== Estimated Marginal Means =====\n")
+  print(emmeans_res)
+  
+  # ---- 4. Plot estimated means with error bars ----
+  plot_df <- as.data.frame(emmeans_res)
+  
+  ggplot(plot_df, aes(x = type, y = emmean, fill = type)) +
+    geom_bar(stat = "identity", color = "black", width = 0.6) +
+    geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.2) +
+    labs(
+      x = "Site Type",
+      y = "Estimated Mean NDVI",
+      title = "NDVI by Site Type"
+    ) +
+    theme_minimal() +
+    theme(legend.position = "none")
 }
+ndvi_model_plot(data_clean)
