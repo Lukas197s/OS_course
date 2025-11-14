@@ -21,7 +21,6 @@ load_data <- function(path = "data/data_nullExclude.csv") {
   return(df)
 }
 
-raw = load_data()
 
 
 clean_ndvi_data <- function(path = "data/data_nullExclude.csv") 
@@ -73,7 +72,6 @@ clean_ndvi_data <- function(path = "data/data_nullExclude.csv")
   return(df_long)
 }
 
-data_clean = clean_ndvi_data()
 
 
 
@@ -93,9 +91,6 @@ plot_ndvi_simple <- function(df) {
       axis.text.x = element_text(angle = 45, hjust = 1)
     )
 }
-
-
-plot_ndvi_simple(data_clean)
 
 
 
@@ -134,4 +129,3 @@ ndvi_model_plot <- function(df) {
     theme_minimal() +
     theme(legend.position = "none")
 }
-ndvi_model_plot(data_clean)
