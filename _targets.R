@@ -1,5 +1,16 @@
+## Load libraries needed
 library(targets)
 library(tarchetypes)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+library(lme4)
+library(lmerTest)   # for p-values
+library(ggplot2)
+library(dplyr)
+
+
 
 source("R_functions/functions_all.R")
 
@@ -31,3 +42,4 @@ list(
     ndvi_model_plot(df_clean)
   )
 )
+

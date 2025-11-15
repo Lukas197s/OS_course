@@ -1,18 +1,4 @@
-## My custom functions
-
-## Load libraries needed
-library(dplyr)
-library(tidyr)
-library(stringr)
-library(ggplot2)
-library(lme4)
-library(lmerTest)   # for p-values
-library(ggplot2)
-library(dplyr)
-
-
-
-
+## This file contains all functions 
 
 clean_ndvi_data <- function(raw_traits) 
   {

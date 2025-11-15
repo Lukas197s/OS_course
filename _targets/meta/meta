@@ -1,0 +1,8 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+clean_ndvi_data|function|e7856315a629c636
+ndvi_model_plot|function|a0db89c890ba9385
+plot_ndvi_simple|function|7ddeb8ef278bb145
+raw_traits|stem|b0e5e37f6a42c89c|5f0f06ce3ebe3cb1|2c530c1562a7fbd1|740529433||t20407.4351950036s|s6504b|6504|rds|local|vector|||0.49|package 'emmeans' was built under R version 4.5.2. package 'janitor' was built under R version 4.5.2|
+df_clean|stem|17900dd8a9ebd924|3274a10764d5c08b|cd521fe53d917faf|-1832955639||t20407.4351974156s|s6581b|6581|rds|local|vector|||0.16||
+model_plot|stem|d2f13bc58726070f|dd64bec5e9583faf|080ea790026db90c|1030149348||t20407.4352040067s|s409333b|409333|rds|local|vector|||0.32||
+ndvi_plot|stem|92609be5c2ac17e7|4188def8194dd927|dce42799109ca934|1594114676||t20407.4352063555s|s254188b|254188|rds|local|vector|||0.04||

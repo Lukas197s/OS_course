@@ -1,0 +1,29 @@
+---
+title: "NDVI Analysis"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+  working-directory: ".."
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(lme4)
+library(lmerTest)
+library(emmeans)
+library(targets)
+```
+
+```{r}
+tar_make()
+df_clean <- tar_read(df_clean)
+ndvi_plot <- tar_read(ndvi_plot)
+model_plot <- tar_read(model_plot)
+```
+
+```{r}
+head(df_clean)
+```

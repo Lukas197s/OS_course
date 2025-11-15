@@ -1,0 +1,38 @@
+---
+title: "NDVI Analysis"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+  working-directory: ".."   # adjust if your .qmd is in a subfolder
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Load packages and targets
+
+```{r}
+library(targets)
+library(dplyr)
+library(ggplot2)
+library(lme4)
+library(lmerTest)
+library(emmeans)
+
+# Read targets from the pipeline
+
+raw_traits   <- tar_read(raw_traits)
+df_clean     <- tar_read(df_clean)
+ndvi_plot    <- tar_read(ndvi_plot)
+model_plot   <- tar_read(model_plot)
+
+```
+
+\*\*Data overview
+
+```{r}
+head(df_clean)
+```
