@@ -9,25 +9,16 @@ library(lme4)
 library(lmerTest)   # for p-values
 library(ggplot2)
 library(dplyr)
-library(emmeans) 
-
-
-load_data <- function(path = "data/data_nullExclude.csv") {
-  if (!file.exists(path)) {
-    stop(paste("File not found:", path))
-  }
-  
-  df <- read.csv(path)
-  return(df)
-}
 
 
 
-clean_ndvi_data <- function(path = "data/data_nullExclude.csv") 
+
+
+clean_ndvi_data <- function(raw_traits) 
   {
   
   # Fix column names and remove problematic characters
-  df <- raw %>%
+  df <- raw_traits %>%
     janitor::clean_names()   
   
   # Standardize ID and type column
@@ -76,8 +67,8 @@ clean_ndvi_data <- function(path = "data/data_nullExclude.csv")
 
 
 
-plot_ndvi_simple <- function(df) {
-  ggplot(df, aes(x = date, y = ndvi, color = type)) +
+plot_ndvi_simple <- function(df_clean) {
+  ggplot(df_clean, aes(x = date, y = ndvi, color = type)) +
     geom_line() +            # line for temporal trend
     geom_point(size = 1.5) + # small points for clarity
     labs(
@@ -94,17 +85,11 @@ plot_ndvi_simple <- function(df) {
 
 
 
-
-ndvi_model_plot <- function(df) {
-  library(lme4)
-  library(lmerTest)   # for p-values
-  library(ggplot2)
-  library(dplyr)
-  library(emmeans)   # for estimated marginal means
+ndvi_model_plot <- function(df_clean) {
   
   # ---- 1. Fit linear mixed model ----
   # NDVI ~ type + random intercept for site_id
-  model <- lmerTest::lmer(ndvi ~ type + (1 | site_id), data = df)
+  model <- lmerTest::lmer(ndvi ~ type + (1 | site_id), data = df_clean)
   
   # ---- 2. Model summary ----
   cat("===== Model Summary =====\n")
@@ -129,3 +114,5 @@ ndvi_model_plot <- function(df) {
     theme_minimal() +
     theme(legend.position = "none")
 }
+
+
