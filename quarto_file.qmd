@@ -1,20 +1,27 @@
 ---
 title: "NDVI Analysis"
 format: html
+author: "LS"
+organization: "NTNU"
+date: "`r Sys.Date()`"   
 execute:
   echo: true
   warning: false
   message: false
-  working-directory: ".."   # adjust if your .qmd is in a subfolder
+working-directory: ".."   # adjust if your .qmd is in a subfolder'
+bibliography: references.bib
+csl: apa.csl
+link-citations: true
 ---
 
-## Quarto
+## Introduction
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+Wind turbine wakes can measurably alter vegetation greenness near wind farms, with detectable effects at most of the 17 U.S. facilities examined using before–after and control–impact comparisons. The direction and strength of these effects varied by site and climate and appeared to act within individual growing seasons rather than accumulating over multiple years @diffendorfer2022wind
 
 ## Load packages and targets
 
 ```{r}
+#| echo: false
 library(targets)
 library(dplyr)
 library(ggplot2)
@@ -31,8 +38,22 @@ model_plot   <- tar_read(model_plot)
 
 ```
 
-\*\*Data overview
+**Data overview**
 
 ```{r}
 head(df_clean)
+```
+
+**NDVI time series plot**
+
+```{r}
+ndvi_plot
+
+```
+
+**Model plot**
+
+```{r}
+model_plot
+
 ```
