@@ -1,0 +1,59 @@
+---
+title: "NDVI Analysis"
+format: html
+author: "LS"
+organization: "NTNU"
+date: "`r Sys.Date()`"   
+execute:
+  echo: true
+  warning: false
+  message: false
+working-directory: ".."   # adjust if your .qmd is in a subfolder'
+bibliography: references.bib
+csl: apa.csl
+link-citations: true
+---
+
+## Introduction
+
+Wind turbine wakes can measurably alter vegetation greenness near wind farms, with detectable effects at most of the 17 U.S. facilities examined using before–after and control–impact comparisons. The direction and strength of these effects varied by site and climate and appeared to act within individual growing seasons rather than accumulating over multiple years @diffendorfer2022wind
+
+## Load packages and targets
+
+```{r}
+#| echo: false
+library(targets)
+library(dplyr)
+library(ggplot2)
+library(lme4)
+library(lmerTest)
+library(emmeans)
+
+# Read targets from the pipeline
+
+raw_traits   <- tar_read(raw_traits)
+df_clean     <- tar_read(df_clean)
+ndvi_plot    <- tar_read(ndvi_plot)
+model_plot   <- tar_read(model_plot)
+
+```
+
+**Data overview**
+
+```{r}
+head(df_clean)
+```
+
+**NDVI time series plot**
+
+```{r}
+ndvi_plot
+
+```
+
+**Model plot**
+
+```{r}
+model_plot
+
+```
