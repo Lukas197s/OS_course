@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="LS">
-<meta name="dcterms.date" content="2025-12-09">
+<meta name="dcterms.date" content="2025-12-10">
 
 <title>NDVI Analysis</title>
 <style>
@@ -121,7 +121,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 9, 2025</p>
+      <p class="date">December 10, 2025</p>
     </div>
   </div>
   
@@ -135,13 +135,26 @@ div.csl-indent {
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Wind turbine wakes can measurably alter vegetation greenness near wind farms, with detectable effects at most of the 17 U.S. facilities examined using before–after and control–impact comparisons. The direction and strength of these effects varied by site and climate and appeared to act within individual growing seasons rather than accumulating over multiple years <span class="citation" data-cites="diffendorfer2022wind">Diffendorfer et al. (<a href="#ref-diffendorfer2022wind" role="doc-biblioref">2022</a>)</span></p>
+<p>Wind turbine wakes can measurably alter vegetation greenness near wind farms. The direction and strength of these effects varied by site and climate and appeared to act within individual growing seasons rather than accumulating over multiple years <span class="citation" data-cites="diffendorfer2022wind">Diffendorfer et al. (<a href="#ref-diffendorfer2022wind" role="doc-biblioref">2022</a>)</span></p>
 </section>
 <section id="load-packages-and-targets" class="level2">
 <h2 class="anchored" data-anchor-id="load-packages-and-targets">Load packages and targets</h2>
 <p><strong>Data overview</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [728 × 9] (S3: tbl_df/tbl/data.frame)
+ $ type        : Factor w/ 2 levels "Complex","Control": 2 2 2 2 2 2 2 2 2 2 ...
+ $ unique_id   : Factor w/ 8 levels "BW1","BW2","BW3",..: 4 4 4 4 4 4 4 4 4 4 ...
+ $ area        : num [1:728] 297792 297792 297792 297792 297792 ...
+ $ shape_length: num [1:728] 2648 2648 2648 2648 2648 ...
+ $ shape_area  : num [1:728] 297792 297792 297792 297792 297792 ...
+ $ frequency   : int [1:728] 100 100 100 100 100 100 100 100 100 100 ...
+ $ site_id     : int [1:728] 1 1 1 1 1 1 1 1 1 1 ...
+ $ ndvi        : num [1:728] 0.1239 0.118 0.1166 0.1093 0.0998 ...
+ $ date        : Date[1:728], format: "2017-07-25" "2017-09-27" ...</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 9
   type    unique_id    area shape_length shape_area frequency site_id   ndvi
@@ -157,7 +170,7 @@ div.csl-indent {
 </div>
 <p><strong>NDVI time series plot</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ndvi_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ndvi_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -168,7 +181,7 @@ div.csl-indent {
 </div>
 <p><strong>Model plot</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

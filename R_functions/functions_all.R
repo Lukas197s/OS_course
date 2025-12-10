@@ -14,8 +14,7 @@ clean_ndvi_data <- function(raw_traits)
       unique_id = factor(unique_id)
     )
   
-  # OBJECTID and CID represent the same information.
-  # Keep one standardized ID:
+  # Keep one standardized ID
   if ("cid" %in% names(df)) {
     df <- df %>%
       mutate(site_id = cid) %>% # create standardized site ID
@@ -25,7 +24,7 @@ clean_ndvi_data <- function(raw_traits)
   # Identify columns that contain NDVI measurements
   ndvi_cols <- grep("^mean_", names(df), value = TRUE)
   
-  # Transform from wide to long format 
+  # Transform from wide to long  
   # Each row is one site at one date
   df_long <- df %>%
     pivot_longer(
@@ -34,7 +33,7 @@ clean_ndvi_data <- function(raw_traits)
       values_to = "ndvi"
     )
   
-  # Extract and convert date info
+  # Extract and convert date 
   df_long <- df_long %>%
     mutate(
       date = str_remove(date_raw, "^mean_"),
@@ -73,20 +72,15 @@ plot_ndvi_simple <- function(df_clean) {
 
 ndvi_model_plot <- function(df_clean) {
   
-  # ---- 1. Fit linear mixed model ----
-  # NDVI ~ type + random intercept for site_id
+  # 1. Fit LMM
   model <- lmerTest::lmer(ndvi ~ type + (1 | site_id), data = df_clean)
-  
-  # ---- 2. Model summary ----
-  cat("===== Model Summary =====\n")
   print(summary(model))
   
-  # ---- 3. Estimated marginal means ----
+  # 2. Estimated marginal means 
   emmeans_res <- emmeans(model, specs = "type")
-  cat("\n===== Estimated Marginal Means =====\n")
   print(emmeans_res)
   
-  # ---- 4. Plot estimated means with error bars ----
+  # 3. EMMs
   plot_df <- as.data.frame(emmeans_res)
   
   ggplot(plot_df, aes(x = type, y = emmean, fill = type)) +
@@ -99,6 +93,77 @@ ndvi_model_plot <- function(df_clean) {
     ) +
     theme_minimal() +
     theme(legend.position = "none")
+  
 }
 
 
+
+
+# Function for data exploration
+explore_ndvi_data <- function(df_clean) {
+  
+  
+  # Structure 
+  print(str(df_clean))
+  
+  # N/As or missing value
+  print(colSums(is.na(df_clean)))
+  
+  # Global NDVI summary 
+  print(
+    df_clean %>%
+      summarise(
+        n    = n(),
+        mean = mean(ndvi, na.rm = TRUE),
+        sd   = sd(ndvi, na.rm = TRUE),
+        min  = min(ndvi, na.rm = TRUE),
+        max  = max(ndvi, na.rm = TRUE)
+      )
+  )
+  
+  # NDVI by site type 
+  print(
+    df_clean %>%
+      group_by(type) %>%
+      summarise(
+        n    = n(),
+        mean = mean(ndvi, na.rm = TRUE),
+        sd   = sd(ndvi, na.rm = TRUE),
+        min  = min(ndvi, na.rm = TRUE),
+        max  = max(ndvi, na.rm = TRUE),
+        .groups = "drop"
+      )
+  )
+  
+  # NDVI by date
+  print(
+    df_clean %>%
+      summarise(
+        start_date = min(date, na.rm = TRUE),
+        end_date   = max(date, na.rm = TRUE),
+        n_dates    = n_distinct(date)
+      )
+  )
+  
+  # Some plots 
+  p1 <- ggplot(df_clean, aes(ndvi)) +
+    geom_histogram(bins = 40) +
+    theme_minimal() +
+    labs(title = "NDVI distribution")
+  
+  p2 <- ggplot(df_clean, aes(type, ndvi)) +
+    geom_boxplot() +
+    theme_minimal() +
+    labs(title = "NDVI by site type")
+  
+  p3 <- ggplot(df_clean, aes(date, ndvi, color = type)) +
+    geom_line() +
+    theme_minimal() +
+    labs(title = "NDVI time series")
+  
+  return(list(
+    histogram = p1,
+    boxplot   = p2,
+    timeseries = p3
+  ))
+}

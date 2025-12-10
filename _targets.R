@@ -6,7 +6,7 @@ library(tidyr)
 library(stringr)
 library(ggplot2)
 library(lme4)
-library(lmerTest)   # for p-values
+library(lmerTest)   
 library(ggplot2)
 library(dplyr)
 
@@ -26,12 +26,10 @@ list(
     raw_traits,
     read.csv("data/data_nullExclude.csv")
   ),
-  
   tar_target(
     df_clean,
     clean_ndvi_data(raw_traits)
   ),
-  
   tar_target(
     ndvi_plot,
     plot_ndvi_simple(df_clean)
@@ -42,4 +40,7 @@ list(
     ndvi_model_plot(df_clean)
   )
 )
+
+
+
 

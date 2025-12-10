@@ -16,7 +16,7 @@ link-citations: true
 
 ## Introduction
 
-Wind turbine wakes can measurably alter vegetation greenness near wind farms, with detectable effects at most of the 17 U.S. facilities examined using before–after and control–impact comparisons. The direction and strength of these effects varied by site and climate and appeared to act within individual growing seasons rather than accumulating over multiple years @diffendorfer2022wind
+Wind turbine wakes can measurably alter vegetation greenness near wind farms. The direction and strength of these effects varied by site and climate and appeared to act within individual growing seasons rather than accumulating over multiple years @diffendorfer2022wind
 
 ## Load packages and targets
 
@@ -41,6 +41,7 @@ model_plot   <- tar_read(model_plot)
 **Data overview**
 
 ```{r}
+str(df_clean)
 head(df_clean)
 ```
 
