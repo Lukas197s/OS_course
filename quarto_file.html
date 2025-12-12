@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="LS">
-<meta name="dcterms.date" content="2025-12-10">
+<meta name="dcterms.date" content="2025-12-12">
 
 <title>NDVI Analysis</title>
 <style>
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -121,7 +86,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 10, 2025</p>
+      <p class="date">December 12, 2025</p>
     </div>
   </div>
   
@@ -134,43 +99,188 @@ div.csl-indent {
 
 
 <section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Wind turbine wakes can measurably alter vegetation greenness near wind farms. The direction and strength of these effects varied by site and climate and appeared to act within individual growing seasons rather than accumulating over multiple years <span class="citation" data-cites="diffendorfer2022wind">Diffendorfer et al. (<a href="#ref-diffendorfer2022wind" role="doc-biblioref">2022</a>)</span></p>
+<h2 class="anchored" data-anchor-id="introduction">1. Introduction</h2>
+<p><strong>1.1 Background</strong></p>
+<p>Wind energy is rapidly expanding as part of global efforts to reduce carbon emissions, with onshore wind power contributing over 90% of global wind energy production. While it offers a low-carbon alternative to fossil fuels, onshore wind plants can affect ecosystems through both direct and indirect impacts. Direct impacts stem from infrastructure development, including land clearing and habitat loss, while indirect effects arise from land transformation, soil compaction, altered hydrology, and microclimatic changes caused by turbine operation <span class="citation" data-cites="denholm2009land trainor2016energy">(<a href="#ref-denholm2009land" role="doc-biblioref">Denholm et al., 2009</a>; <a href="#ref-trainor2016energy" role="doc-biblioref">Trainor et al., 2016</a>)</span>. Although the land footprint for wind energy is relatively small compared with coal or nuclear power, ecosystem degradation (including changes in vegetation, soil, and hydrological processes) can occur if restoration and mitigation are insufficient <span class="citation" data-cites="seifert2025emerging">(<a href="#ref-seifert2025emerging" role="doc-biblioref">Seifert et al., 2025</a>)</span>.</p>
+<p>Remote sensing provides a powerful tool to quantify vegetation responses to environmental change and disturbances. The Normalized Difference Vegetation Index (NDVI), captures changes in vegetation greenness, cover, and productivity. It offers a consistent, spatially explicit metric for monitoring ecosystem impacts over time <span class="citation" data-cites="PETTORELLI2005503">(<a href="#ref-PETTORELLI2005503" role="doc-biblioref">Pettorelli et al., 2005</a>)</span>. Several studies have applied NDVI to assess vegetation near onshore wind farms, documenting both reductions in greenness due to habitat disturbance and mixed seasonal responses in grasslands, coastal, and alpine ecosystems <span class="citation" data-cites="diffendorfer2022wind aksoy2023impacts ma2023revealing tang2017observed">(<a href="#ref-aksoy2023impacts" role="doc-biblioref">Aksoy et al., 2023</a>; <a href="#ref-diffendorfer2022wind" role="doc-biblioref">Diffendorfer et al., 2022</a>; <a href="#ref-ma2023revealing" role="doc-biblioref">Ma et al., 2023</a>; <a href="#ref-tang2017observed" role="doc-biblioref">Tang et al., 2017</a>)</span>. These applications highlight NDVI’s utility for detecting and quantifying vegetation impacts associated with wind energy development.</p>
+<p><strong>1.2 Purpose of this exercise</strong></p>
+<p>To illustrate the application of NDVI for assessing vegetation impacts, I aim to create a GitHub repository using an example dataset from the Salinas River, California <span class="citation" data-cites="aubry2025salinas">(<a href="#ref-aubry2025salinas" role="doc-biblioref">Aubry &amp; Sistla, 2025</a>)</span>.This dataset contains mean NDVI values for riparian vegetation across beaver-influenced and control sites over several years. It is not related to wind energy, but its structure is comparable to the type of data expected from wind energy studies: multiple sites, repeated temporal measurements, and contrasting environmental conditions. The dataset is readily available from <a href="https://doi.org/10.5281/zenodo.11480851">Dryad</a> and I can use it to practice how to clean, organize, and analyze NDVI data in a reproducible manner. This methodology can later be adapted for the third chapter of my PhD.</p>
 </section>
-<section id="load-packages-and-targets" class="level2">
-<h2 class="anchored" data-anchor-id="load-packages-and-targets">Load packages and targets</h2>
-<p><strong>Data overview</strong></p>
+<section id="quality-check" class="level2">
+<h2 class="anchored" data-anchor-id="quality-check">2. Quality check</h2>
+<p>I used my quality check function to detect any <em>problems</em> with the dataset like duplicated rows, missing values or outliers:</p>
+<ul>
+<li>duplicated rows: <strong>0</strong></li>
+<li>missing values: <strong>0</strong></li>
+<li>outliers (±3 SD): <strong>0</strong></li>
+</ul>
+</section>
+<section id="data-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="data-exploration">3. Data exploration</h2>
+<p>After getting a brief overview of the dataset and the variables it contains <a href="#tbl-overview" class="quarto-xref">Table&nbsp;1</a>, I used my data exploration function to create a histogram that visualizes the distribution of different NDVI values <a href="#fig-histogram" class="quarto-xref">Figure&nbsp;1</a>. To see differences between beaver-influenced (complex) and control sites, I made a boxplot <a href="#fig-boxplot" class="quarto-xref">Figure&nbsp;2</a>. Finally, I visualized how NDVI values varied over the sampling period to see both seasonal variation (winter low vs summer high) and differences between site type (complex vs control) <a href="#fig-temporal" class="quarto-xref">Figure&nbsp;3</a>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>tibble [728 × 9] (S3: tbl_df/tbl/data.frame)
- $ type        : Factor w/ 2 levels "Complex","Control": 2 2 2 2 2 2 2 2 2 2 ...
- $ unique_id   : Factor w/ 8 levels "BW1","BW2","BW3",..: 4 4 4 4 4 4 4 4 4 4 ...
- $ area        : num [1:728] 297792 297792 297792 297792 297792 ...
- $ shape_length: num [1:728] 2648 2648 2648 2648 2648 ...
- $ shape_area  : num [1:728] 297792 297792 297792 297792 297792 ...
- $ frequency   : int [1:728] 100 100 100 100 100 100 100 100 100 100 ...
- $ site_id     : int [1:728] 1 1 1 1 1 1 1 1 1 1 ...
- $ ndvi        : num [1:728] 0.1239 0.118 0.1166 0.1093 0.0998 ...
- $ date        : Date[1:728], format: "2017-07-25" "2017-09-27" ...</code></pre>
+<div id="tbl-overview" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Overview of the cleaned NDVI dataset.
+</figcaption>
+<div aria-describedby="tbl-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 11%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">unique_id</th>
+<th style="text-align: right;">area</th>
+<th style="text-align: right;">shape_length</th>
+<th style="text-align: right;">shape_area</th>
+<th style="text-align: right;">frequency</th>
+<th style="text-align: right;">site_id</th>
+<th style="text-align: right;">ndvi</th>
+<th style="text-align: left;">date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Control</td>
+<td style="text-align: left;">C1</td>
+<td style="text-align: right;">297792.5</td>
+<td style="text-align: right;">2647.666</td>
+<td style="text-align: right;">297792.5</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.1239187</td>
+<td style="text-align: left;">2017-07-25</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Control</td>
+<td style="text-align: left;">C1</td>
+<td style="text-align: right;">297792.5</td>
+<td style="text-align: right;">2647.666</td>
+<td style="text-align: right;">297792.5</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.1180117</td>
+<td style="text-align: left;">2017-09-27</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Control</td>
+<td style="text-align: left;">C1</td>
+<td style="text-align: right;">297792.5</td>
+<td style="text-align: right;">2647.666</td>
+<td style="text-align: right;">297792.5</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.1165928</td>
+<td style="text-align: left;">2017-10-13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Control</td>
+<td style="text-align: left;">C1</td>
+<td style="text-align: right;">297792.5</td>
+<td style="text-align: right;">2647.666</td>
+<td style="text-align: right;">297792.5</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.1092998</td>
+<td style="text-align: left;">2017-11-14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Control</td>
+<td style="text-align: left;">C1</td>
+<td style="text-align: right;">297792.5</td>
+<td style="text-align: right;">2647.666</td>
+<td style="text-align: right;">297792.5</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.0998393</td>
+<td style="text-align: left;">2017-11-30</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Control</td>
+<td style="text-align: left;">C1</td>
+<td style="text-align: right;">297792.5</td>
+<td style="text-align: right;">2647.666</td>
+<td style="text-align: right;">297792.5</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.0947969</td>
+<td style="text-align: left;">2017-12-16</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 9
-  type    unique_id    area shape_length shape_area frequency site_id   ndvi
-  &lt;fct&gt;   &lt;fct&gt;       &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;int&gt;   &lt;int&gt;  &lt;dbl&gt;
-1 Control C1        297792.        2648.    297792.       100       1 0.124 
-2 Control C1        297792.        2648.    297792.       100       1 0.118 
-3 Control C1        297792.        2648.    297792.       100       1 0.117 
-4 Control C1        297792.        2648.    297792.       100       1 0.109 
-5 Control C1        297792.        2648.    297792.       100       1 0.0998
-6 Control C1        297792.        2648.    297792.       100       1 0.0948
-# ℹ 1 more variable: date &lt;date&gt;</code></pre>
+</div>
+</figure>
 </div>
 </div>
-<p><strong>NDVI time series plot</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ndvi_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-histogram" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-histogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="quarto_file_files/figure-html/fig-histogram-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Histogram of NDVI values across all sites, showing the overall distribution of NDVI values
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-boxplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="quarto_file_files/figure-html/fig-boxplot-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Boxplot of NDVI values grouped by site type (beaver-influenced vs.&nbsp;control sites
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-temporal" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-temporal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="quarto_file_files/figure-html/fig-temporal-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-temporal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Temporal Dynamics
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="data-exploration-1" class="level2">
+<h2 class="anchored" data-anchor-id="data-exploration-1">3. Data exploration</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="quarto_file_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Model plot</strong></p>
+<div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -179,9 +289,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p><strong>Model plot</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model_plot</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -190,12 +298,54 @@ div.csl-indent {
 </div>
 </div>
 </div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="quarto_file_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="quarto_file_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-aksoy2023impacts" class="csl-entry" role="listitem">
+Aksoy, T., Cetin, M., Cabuk, S. N., Senyel Kurkcuoglu, M. A., Bilge Ozturk, G., &amp; Cabuk, A. (2023). Impacts of wind turbines on vegetation and soil cover: A case study of urla, cesme, and karaburun peninsulas, turkey. <em>Clean Technologies and Environmental Policy</em>, <em>25</em>(1), 51–68.
+</div>
+<div id="ref-aubry2025salinas" class="csl-entry" role="listitem">
+Aubry, S., &amp; Sistla, S. (2025). <em>Mean NDVI values from july 2017 to december 2023 for selected beaver complex sites and control sites along the salinas river</em>. Zenodo. <a href="https://doi.org/10.5281/zenodo.11480851">https://doi.org/10.5281/zenodo.11480851</a>
+</div>
+<div id="ref-denholm2009land" class="csl-entry" role="listitem">
+Denholm, P., Hand, M., Jackson, M., &amp; Ong, S. (2009). <em>Land use requirements of modern wind power plants in the united states</em>. National Renewable Energy Lab.(NREL), Golden, CO (United States).
+</div>
 <div id="ref-diffendorfer2022wind" class="csl-entry" role="listitem">
 Diffendorfer, J. E., Vanderhoof, M. K., &amp; Ancona, Z. H. (2022). Wind turbine wakes can impact down-wind vegetation greenness. <em>Environmental Research Letters</em>, <em>17</em>(10), 104025.
+</div>
+<div id="ref-ma2023revealing" class="csl-entry" role="listitem">
+Ma, B., Yang, J., Chen, X., Zhang, L., &amp; Zeng, W. (2023). Revealing the ecological impact of low-speed mountain wind power on vegetation and soil erosion in south china: A case study of a typical wind farm in yunnan. <em>Journal of Cleaner Production</em>, <em>419</em>, 138020.
+</div>
+<div id="ref-PETTORELLI2005503" class="csl-entry" role="listitem">
+Pettorelli, N., Vik, J. O., Mysterud, A., Gaillard, J.-M., Tucker, C. J., &amp; Stenseth, N. Chr. (2005). Using the satellite-derived NDVI to assess ecological responses to environmental change. <em>Trends in Ecology &amp; Evolution</em>, <em>20</em>(9), 503–510. https://doi.org/<a href="https://doi.org/10.1016/j.tree.2005.05.011">https://doi.org/10.1016/j.tree.2005.05.011</a>
+</div>
+<div id="ref-seifert2025emerging" class="csl-entry" role="listitem">
+Seifert, L., Graae, B. J., Hagen, D., &amp; May, R. (2025). The emerging need for ecosystem restoration to mitigate the impacts of onshore wind energy. <em>Sustainable Environment</em>, <em>11</em>(1), 2567100.
+</div>
+<div id="ref-tang2017observed" class="csl-entry" role="listitem">
+Tang, B., Wu, D., Zhao, X., Zhou, T., Zhao, W., &amp; Wei, H. (2017). The observed impacts of wind farms on local vegetation growth in northern china. <em>Remote Sensing</em>, <em>9</em>(4), 332.
+</div>
+<div id="ref-trainor2016energy" class="csl-entry" role="listitem">
+Trainor, A. M., McDonald, R. I., &amp; Fargione, J. (2016). Energy sprawl is the largest driver of land use change in united states. <em>PloS One</em>, <em>11</em>(9), e0162269.
 </div>
 </div></section></div></main>
 <!-- /main column -->

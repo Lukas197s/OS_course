@@ -8,17 +8,24 @@ execute:
   echo: true
   warning: false
   message: false
-working-directory: ".."   # adjust if your .qmd is in a subfolder'
+working-directory: ".."   
 bibliography: references.bib
 csl: apa.csl
 link-citations: true
+output: bookdown::html_document2
 ---
 
-## Introduction
+## 1. Introduction
 
-Wind turbine wakes can measurably alter vegetation greenness near wind farms. The direction and strength of these effects varied by site and climate and appeared to act within individual growing seasons rather than accumulating over multiple years @diffendorfer2022wind
+**1.1 Background**
 
-## Load packages and targets
+Wind energy is rapidly expanding as part of global efforts to reduce carbon emissions, with onshore wind power contributing over 90% of global wind energy production. While it offers a low-carbon alternative to fossil fuels, onshore wind plants can affect ecosystems through both direct and indirect impacts. Direct impacts stem from infrastructure development, including land clearing and habitat loss, while indirect effects arise from land transformation, soil compaction, altered hydrology, and microclimatic changes caused by turbine operation [@denholm2009land; @trainor2016energy]. Although the land footprint for wind energy is relatively small compared with coal or nuclear power, ecosystem degradation (including changes in vegetation, soil, and hydrological processes) can occur if restoration and mitigation are insufficient [@seifert2025emerging].
+
+Remote sensing provides a powerful tool to quantify vegetation responses to environmental change and disturbances. The Normalized Difference Vegetation Index (NDVI), captures changes in vegetation greenness, cover, and productivity. It offers a consistent, spatially explicit metric for monitoring ecosystem impacts over time [@PETTORELLI2005503]. Several studies have applied NDVI to assess vegetation near onshore wind farms, documenting both reductions in greenness due to habitat disturbance and mixed seasonal responses in grasslands, coastal, and alpine ecosystems [@diffendorfer2022wind; @aksoy2023impacts; @ma2023revealing; @tang2017observed]. These applications highlight NDVI’s utility for detecting and quantifying vegetation impacts associated with wind energy development.
+
+**1.2 Purpose of this exercise**
+
+To illustrate the application of NDVI for assessing vegetation impacts, I aim to create a GitHub repository using an example dataset from the Salinas River, California [@aubry2025salinas].This dataset contains mean NDVI values for riparian vegetation across beaver-influenced and control sites over several years. It is not related to wind energy, but its structure is comparable to the type of data expected from wind energy studies: multiple sites, repeated temporal measurements, and contrasting environmental conditions. The dataset is readily available from [Dryad](https://doi.org/10.5281/zenodo.11480851) and I can use it to practice how to clean, organize, and analyze NDVI data in a reproducible manner. This methodology can later be adapted for the third chapter of my PhD.
 
 ```{r}
 #| echo: false
@@ -28,33 +35,90 @@ library(ggplot2)
 library(lme4)
 library(lmerTest)
 library(emmeans)
+library(bookdown)
 
-# Read targets from the pipeline
+# targets for import, cleaning, and data exploration
+raw_traits            <- tar_read(raw_traits)
+df_clean              <- tar_read(df_clean)
+ndvi_quality_check    <- tar_read(ndvi_quality_check)
+eda_plots             <- tar_read(eda_plots)
 
-raw_traits   <- tar_read(raw_traits)
-df_clean     <- tar_read(df_clean)
-ndvi_plot    <- tar_read(ndvi_plot)
-model_plot   <- tar_read(model_plot)
+# targets for analysis
+ndvi_time_plot        <- tar_read(ndvi_time_plot)
+ndvi_seasonal_plot    <- tar_read(ndvi_seasonal_plot)
+ndvi_distribution_plot<- tar_read(ndvi_distribution_plot)
+ndvi_density_plot     <- tar_read(ndvi_density_plot)
+ndvi_anomaly_plot     <- tar_read(ndvi_anomaly_plot)
 
 ```
 
-**Data overview**
+## 2. Quality check 
+
+I used my quality check function to detect any *problems* with the dataset like duplicated rows, missing values or outliers:
+
+-   duplicated rows: **`r sum(ndvi_quality_check$dup_count)`**
+-   missing values: **`r sum(ndvi_quality_check$missing_vals)`**
+-   outliers (±3 SD): **`r sum(ndvi_quality_check$outliers)`**
+
+## 3. Data exploration
+
+After getting a brief overview of the dataset and the variables it contains @tbl-overview, I used my data exploration function to create a histogram that visualizes the distribution of different NDVI values @fig-histogram. To see differences between beaver-influenced (complex) and control sites, I made a boxplot @fig-boxplot. Finally, I visualized how NDVI values varied over the sampling period to see both seasonal variation (winter low vs summer high) and differences between site type (complex vs control) @fig-temporal.
 
 ```{r}
-str(df_clean)
-head(df_clean)
+#| echo: false 
+#| label: tbl-overview
+#| tbl-cap: "Overview of the cleaned NDVI dataset."
+knitr::kable(head(df_clean))
 ```
 
-**NDVI time series plot**
+```{r}
+#| echo: false
+#| label: fig-histogram
+#| fig-cap: "Histogram of NDVI values across all sites, showing the overall distribution of NDVI values"
+
+eda_plots$histogram
+```
 
 ```{r}
-ndvi_plot
+#| echo: false
+#| label: fig-boxplot
+#| fig-cap: "Boxplot of NDVI values grouped by site type (beaver-influenced vs. control sites"
 
+eda_plots$boxplot
+```
+
+```{r}
+#| echo: false
+#| label: fig-temporal
+#| fig-cap: "Temporal Dynamics"
+eda_plots$timeseries
+```
+
+## 3. Data exploration
+
+```{r}
+#| echo: false
+ndvi_time_plot
 ```
 
 **Model plot**
 
 ```{r}
-model_plot
+#| echo: false
+ndvi_seasonal_plot    
+```
 
+```{r}
+#| echo: false
+ndvi_distribution_plot
+```
+
+```{r}
+#| echo: false
+ndvi_distribution_plot
+```
+
+```{r}
+#| echo: false
+ndvi_anomaly_plot 
 ```
