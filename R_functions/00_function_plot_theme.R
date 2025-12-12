@@ -1,3 +1,5 @@
+## This is a script to change the theme and color of all plots easily
+
 theme_ndvi <- function() {
   theme_minimal(base_size = 14) +
     theme(

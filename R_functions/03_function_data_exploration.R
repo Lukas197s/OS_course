@@ -1,7 +1,6 @@
+## Exploring the data 
 
-# Function for data exploration
 explore_ndvi_data <- function(df_clean) {
-  
   
   # Structure 
   print(str(df_clean))

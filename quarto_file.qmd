@@ -9,8 +9,8 @@ execute:
   warning: false
   message: false
 working-directory: ".."   
-bibliography: references.bib
-csl: apa.csl
+bibliography: literature/references.bib
+csl: literature/apa.csl
 link-citations: true
 output: bookdown::html_document2
 ---
@@ -52,7 +52,7 @@ ndvi_anomaly_plot     <- tar_read(ndvi_anomaly_plot)
 
 ```
 
-## 2. Quality check 
+## 2. Quality check
 
 I used my quality check function to detect any *problems* with the dataset like duplicated rows, missing values or outliers:
 
@@ -94,31 +94,43 @@ eda_plots$boxplot
 eda_plots$timeseries
 ```
 
-## 3. Data exploration
+## 4. Results
+
+To examine NDVI patterns in more detail, I visualized temporal trends of NDVI over the sampling period @fig-ndvi_time. These smoothed trends highlight how vegetation greenness changes over time and reveal differences between site types. Next, I explored seasonal variation by aggregating NDVI values by month @fig-ndvi_seasonal, which shows typical seasonal patterns such as lower NDVI in winter and higher NDVI in summer.
+
+To assess the overall distribution of NDVI across sites, I created site-level histograms @fig-ndvi_distribution, revealing variation in NDVI between locations. The density plot @fig-ndvi_density shows the distribution of NDVI values across all observations and highlighting differences between site types. Finally, I calculated NDVI anomalies at the plot level @fig-ndvi_anomaly to identify detect unusual patterns at site level. For the context of wind energy I would expect decrease of NDVI during and after construction, fro example.
 
 ```{r}
 #| echo: false
+#| label: fig-ndvi_time
+#| fig-cap: "NDVI trends over time (smoothed)"
 ndvi_time_plot
 ```
 
-**Model plot**
-
 ```{r}
 #| echo: false
+#| label: fig-ndvi_seasonal
+#| fig-cap: "Seasonal patterns"
 ndvi_seasonal_plot    
 ```
 
 ```{r}
 #| echo: false
+#| label: fig-ndvi_distribution
+#| fig-cap: "Distribution by site"
 ndvi_distribution_plot
 ```
 
 ```{r}
 #| echo: false
-ndvi_distribution_plot
+#| label: fig-ndvi_density
+#| fig-cap: "Density"
+ndvi_density_plot
 ```
 
 ```{r}
 #| echo: false
+#| label: fig-ndvi_anomaly
+#| fig-cap: "Anomalies on plot level"
 ndvi_anomaly_plot 
 ```

@@ -1,3 +1,5 @@
+## This is the function for cleaning the data
+
 clean_ndvi_data <- function(raw_traits) 
 {
   
@@ -23,7 +25,6 @@ clean_ndvi_data <- function(raw_traits)
   ndvi_cols <- grep("^mean_", names(df), value = TRUE)
   
   # Transform from wide to long  
-  # Each row is one site at one date
   df_long <- df %>%
     pivot_longer(
       cols = all_of(ndvi_cols),

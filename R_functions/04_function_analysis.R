@@ -1,8 +1,6 @@
-# ============================================================
-# NDVI Visualization Functions
-# ============================================================
+## Some analysis of NDVI trends
 
-# 5a. NDVI over time by type with smoothed trend
+# NDVI over time (smoothed)
 plot_ndvi_time <- function(df_clean) {
   ggplot(df_clean, aes(x = date, y = ndvi, color = type)) +
     geom_point(alpha = 0.4) +
@@ -17,7 +15,7 @@ plot_ndvi_time <- function(df_clean) {
     ndvi_colors()
 }
 
-# 5b. Seasonal NDVI patterns by type
+# Seasonal patterns
 plot_seasonal_ndvi <- function(df_clean) {
   df_clean %>%
     mutate(month = lubridate::month(date, label = TRUE)) %>%
@@ -36,7 +34,7 @@ plot_seasonal_ndvi <- function(df_clean) {
     ndvi_colors()
 }
 
-# 5c. NDVI distribution per site
+# NDVI per site
 plot_ndvi_distribution <- function(df_clean) {
   ggplot(df_clean, aes(x = ndvi, fill = type)) +
     geom_histogram(bins = 30, alpha = 0.6) +

@@ -33,7 +33,7 @@ list(
     df_clean,
     clean_ndvi_data(raw_traits)
   ),
-  # check for flaws
+  # check for problems
   tar_target(
     ndvi_quality_check,
     check_ndvi_quality(df_clean)
@@ -48,25 +48,21 @@ list(
     ndvi_time_plot,
     plot_ndvi_time(df_clean)
   ),
-  
-  # Seasonal variation
+  # NDVI by season
   tar_target(
     ndvi_seasonal_plot,
     plot_seasonal_ndvi(df_clean)
   ),
-  
   # NDVI distribution per site
   tar_target(
     ndvi_distribution_plot,
     plot_ndvi_distribution(df_clean)
   ),
-  
   # NDVI density 
   tar_target(
     ndvi_density_plot,
     plot_ndvi_density(df_clean)
   ),
-  
   # NDVI anomalies per site
   tar_target(
     ndvi_anomaly_plot,
