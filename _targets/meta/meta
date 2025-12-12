@@ -1,9 +1,23 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-raw_traits|stem|b0e5e37f6a42c89c|5f0f06ce3ebe3cb1|2c530c1562a7fbd1|740529433||t20431.6356467548s|s6504b|6504|rds|local|vector|||0.26|package 'emmeans' was built under R version 4.5.2. package 'janitor' was built under R version 4.5.2|
-df_clean|stem|17900dd8a9ebd924|3274a10764d5c08b|cd521fe53d917faf|-1832955639||t20431.635648753s|s6581b|6581|rds|local|vector|||0.14||
-model_plot|stem|d2f13bc58726070f|dd64bec5e9583faf|080ea790026db90c|1030149348||t20431.635652914s|s409333b|409333|rds|local|vector|||0.22||
-ndvi_plot|stem|92609be5c2ac17e7|4188def8194dd927|dce42799109ca934|1594114676||t20431.6356544747s|s254188b|254188|rds|local|vector|||0.03||
+raw_traits|stem|b0e5e37f6a42c89c|5f0f06ce3ebe3cb1|2c530c1562a7fbd1|740529433||t20434.3690331526s|s6504b|6504|rds|local|vector|||0.33|package 'emmeans' was built under R version 4.5.2. package 'janitor' was built under R version 4.5.2|
+df_clean|stem|17900dd8a9ebd924|3274a10764d5c08b|cd521fe53d917faf|-1832955639||t20434.3690351793s|s6581b|6581|rds|local|vector|||0.14||
+model_plot|stem|d2f13bc58726070f|dd64bec5e9583faf|f5fb40203484fada|1030149348||t20434.3690452683s|s409333b|409333|rds|local|vector|||0.17||
+ndvi_quality_check|stem|3b979fc98816cc6f|71f3eb3981d64734|681395c7beced8af|1729052600||t20434.3690461326s|s2171b|2171|rds|local|vector|||0.05||
+ndvi_model_plot|function|57958d7c22c4cb3a
+add_ndvi_style|function|197d6262f6d24f60
+check_ndvi_quality|function|96767aa52f9bf46b
+ndvi_colors|function|c238e74f9b1fd481
+theme_ndvi|function|c87220bf84644e86
 clean_ndvi_data|function|e7856315a629c636
-ndvi_model_plot|function|a0db89c890ba9385
-plot_ndvi_simple|function|7ddeb8ef278bb145
-explore_ndvi_data|function|542d5f92e53031fe
+plot_ndvi_anomalies|function|97fff9bb5ddfb360
+plot_ndvi_distribution|function|e4b0eb3fb0f5f7e3
+plot_ndvi_density|function|311374003456e8d8
+explore_ndvi_data|function|2e3afc7b1435802a
+plot_ndvi_time|function|f48c908dd569eedf
+plot_seasonal_ndvi|function|3de0a4840cbfd8a8
+ndvi_density_plot|stem|36fd015a8dd49cfb|1612b0ed4f366f9a|c74d3df2f7728d6a|-756850557||t20434.3915942437s|s289132b|289132|rds|local|vector|||0.08||
+ndvi_distribution_plot|stem|864d32c4695f2572|079d7eb126a6a68a|38e0c0c464e741cb|-895459887||t20434.3915963284s|s312697b|312697|rds|local|vector|||0.08||
+eda_plots|stem|8823e77cff35c696|9874e6a3094c57ab|80a9927a9bb1f042|-99718744||t20434.3916037063s|s1017516b|1017516|rds|local|vector|||0.25||
+ndvi_anomaly_plot|stem|fcacac22394c98b5|6ba5f8ce7b401f80|5e52b00df663fa26|-106404734||t20434.3916057834s|s332479b|332479|rds|local|vector|||0.08||
+ndvi_seasonal_plot|stem|5d58f592c89577fb|4fa4c61de4569500|5a22c61325467b05|1319178758||t20434.3916081332s|s274341b|274341|rds|local|vector|||0.09|Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead.|
+ndvi_time_plot|stem|408d7e7a5c855eff|262d46e570a1287b|f57f5bfef9901379|802741508||t20434.3916100297s|s292688b|292688|rds|local|vector|||0.06||
