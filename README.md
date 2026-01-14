@@ -40,8 +40,6 @@ git clone https://github.com/yourusername/ndvi-analysis.git
 
 ## Known Issues
 
-1. No workflow diagram included; adding one would improve clarity.
-2. Seasonal aggregation assumes uniform measurement intervals; irregular sampling may affect results.
-3. Currently supports only CSV datasets structured like the example NDVI dataset from Salinas River.
-4. Large datasets may require increased memory allocation in R.
-5. Minor differences in R package versions may produce slightly different plots.
+1. Seasonal aggregation assumes uniform measurement intervals; irregular sampling may affect results.
+2. Currently supports only datasets structured like the example NDVI dataset from Salinas River.
+3. Large datasets may require increased memory allocation in R.
