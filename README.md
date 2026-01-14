@@ -20,7 +20,7 @@ install.packages(c("tidyverse", "lubridate", "ggplot2", "dplyr"))
 ```
 
 3. Download or clone this repository:
-git clone https://github.com/yourusername/ndvi-analysis.git
+git clone https://github.com/Lukas197s/OS_course.git
 
 4. Access data in the data/ folder and scripts in the scripts/ folder.
 
