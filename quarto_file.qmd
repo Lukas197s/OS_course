@@ -1,18 +1,23 @@
 ---
 title: "NDVI Analysis"
-format: html
 author: "LS"
 organization: "NTNU"
-date: "`r Sys.Date()`"   
+date: "`r Sys.Date()`"
+
+format:
+  html:
+    self-contained: true
+
 execute:
   echo: true
   warning: false
   message: false
-working-directory: ".."   
+
+working-directory: ".."
+
 bibliography: literature/references.bib
 csl: literature/apa.csl
 link-citations: true
-output: bookdown::html_document2
 ---
 
 ## 1. Introduction
@@ -30,26 +35,25 @@ To illustrate the application of NDVI for assessing vegetation impacts, I aim to
 ```{r}
 #| echo: false
 library(targets)
-library(dplyr)
-library(ggplot2)
-library(lme4)
-library(lmerTest)
-library(emmeans)
-library(bookdown)
+library(tarchetypes)
+#library(ggplot2)
+#library(lme4)
+#library(lmerTest)
+#library(emmeans)
+#library(bookdown)
+#library(dplyr)
 
-# targets for import, cleaning, and data exploration
-raw_traits            <- tar_read(raw_traits)
-df_clean              <- tar_read(df_clean)
-ndvi_quality_check    <- tar_read(ndvi_quality_check)
-eda_plots             <- tar_read(eda_plots)
-
-# targets for analysis
-ndvi_time_plot        <- tar_read(ndvi_time_plot)
-ndvi_seasonal_plot    <- tar_read(ndvi_seasonal_plot)
-ndvi_distribution_plot<- tar_read(ndvi_distribution_plot)
-ndvi_density_plot     <- tar_read(ndvi_density_plot)
-ndvi_anomaly_plot     <- tar_read(ndvi_anomaly_plot)
-
+tar_load(c(
+  "raw_traits",
+  "df_clean",
+  "ndvi_quality_check",
+  "eda_plots",
+  "ndvi_time_plot",
+  "ndvi_seasonal_plot",
+  "ndvi_distribution_plot",
+  "ndvi_density_plot",
+  "ndvi_anomaly_plot"
+))
 ```
 
 ## 2. Quality check

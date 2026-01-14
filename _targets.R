@@ -1,72 +1,73 @@
 ## Load libraries needed
 library(targets)
 library(tarchetypes)
-library(dplyr)
-library(tidyr)
-library(stringr)
-library(ggplot2)
-library(lme4)
-library(lmerTest)   
-library(ggplot2)
-library(dplyr)
-library(viridis)
-
 
 
 lapply(list.files("R_functions", full.names = TRUE), source)
 
 tar_option_set(
   packages = c(
-    "dplyr", "tidyr", "stringr", "ggplot2",
-    "lme4", "lmerTest", "emmeans", "janitor"
+    "tidyverse" , "lme4", "lmerTest", "ggplot2" , "dplyr" , "viridis", 
+    "emmeans", "janitor"
   )
 )
 
 list(
-  # load dataset
+  # 1.track input file
+  tar_target(
+    raw_traits_file,
+    "data/data_nullExclude.csv",
+    format = "file" ##file targets do not produce an object or run code?!
+  ),
+  # 2.read dataset
   tar_target(
     raw_traits,
-    read.csv("data/data_nullExclude.csv")
+    read.csv(raw_traits_file)
   ),
-  # clean dataset
+  # 3.clean dataset
   tar_target(
     df_clean,
     clean_ndvi_data(raw_traits)
   ),
-  # check for problems
+  # 4.check for problems
   tar_target(
     ndvi_quality_check,
     check_ndvi_quality(df_clean)
   ),
-  # data exploration
+  # 5.data exploration
   tar_target(
     eda_plots,
     explore_ndvi_data(df_clean)
   ),
-  # NDVI over time
+  # 6.NDVI over time
   tar_target(
     ndvi_time_plot,
     plot_ndvi_time(df_clean)
   ),
-  # NDVI by season
+  # 7.NDVI by season
   tar_target(
     ndvi_seasonal_plot,
     plot_seasonal_ndvi(df_clean)
   ),
-  # NDVI distribution per site
+  # 8.NDVI distribution per site
   tar_target(
     ndvi_distribution_plot,
     plot_ndvi_distribution(df_clean)
   ),
-  # NDVI density 
+  # 9.NDVI density 
   tar_target(
     ndvi_density_plot,
     plot_ndvi_density(df_clean)
   ),
-  # NDVI anomalies per site
+  # 10.NDVI anomalies per site
   tar_target(
     ndvi_anomaly_plot,
     plot_ndvi_anomalies(df_clean)
+    ),
+  # 11.Add .qmd file to targets
+  tar_quarto(
+  report,
+  "quarto_file.qmd"
 )
 )
 
