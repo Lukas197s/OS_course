@@ -23,6 +23,15 @@ install.packages(c("tidyverse", "lubridate", "ggplot2", "dplyr"))
 git clone https://github.com/Lukas197s/OS_course.git
 
 4. Access data in the data/ folder and scripts in the scripts/ folder.
+5. Install and load targets
+```r
+install.packages("targets")  # if not already installed
+library(targets)
+```
+6. Execute targets
+```r
+tar_make()
+```
 
 ## Installation for Contributors
 1. Fork the repository on GitHub
